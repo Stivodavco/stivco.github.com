@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Ancient Greece: Random Test</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Marcellus&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F6F5F1;--surface:#FFFFFF;--ink:#1E2633;--muted:#5B6472;--line:#D8D5CC;
+  --fresco:#2B6A93;--fresco-soft:#E3EEF5;--saffron:#C98F14;--saffron-soft:#FBF1D9;
+  --red:#B23A2A;--red-soft:#F8E4E0;--green:#2F7A4F;--green-soft:#E1F1E7;
+  color-scheme:light;
+  box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#121821;--surface:#1A222D;--ink:#ECEAE4;--muted:#9AA4B2;--line:#2C3644;
+    --fresco:#6FAAD3;--fresco-soft:#1C2E3E;--saffron:#E8B848;--saffron-soft:#332A14;
+    --red:#E07062;--red-soft:#3A1F1C;--green:#6CC08F;--green-soft:#173024;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#121821;--surface:#1A222D;--ink:#ECEAE4;--muted:#9AA4B2;--line:#2C3644;
+  --fresco:#6FAAD3;--fresco-soft:#1C2E3E;--saffron:#E8B848;--saffron-soft:#332A14;
+  --red:#E07062;--red-soft:#3A1F1C;--green:#6CC08F;--green-soft:#173024;
+  color-scheme:dark;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Atkinson Hyperlegible",system-ui,-apple-system,"Segoe UI",sans-serif;font-size:17px;line-height:1.55}
+.wrap{max-width:640px;margin:0 auto;padding:20px 18px 48px}
+.band{display:block;width:100%;height:22px;color:var(--fresco)}
+h1,h2{font-family:"Marcellus",Georgia,"Times New Roman",serif;font-weight:400;letter-spacing:.01em;margin:0}
+h1{font-size:2.1rem;line-height:1.15;margin:22px 0 8px}
+h2{font-size:1.45rem;line-height:1.3}
+p{margin:0 0 14px}
+.lede{color:var(--muted);max-width:52ch}
+.group{margin:26px 0 0}
+.group-label{font-weight:700;margin-bottom:10px;display:block}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{font:inherit;font-size:.95rem;padding:9px 16px;border-radius:999px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
+.chip[aria-pressed="true"]{border-color:var(--fresco);background:var(--fresco-soft);color:var(--ink);font-weight:700}
+.btn{font:inherit;font-weight:700;font-size:1rem;padding:13px 22px;border-radius:10px;border:none;background:var(--fresco);color:#fff;cursor:pointer}
+:root[data-theme="dark"] .btn{color:#0E1620}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .btn{color:#0E1620}}
+.btn.ghost{background:transparent;color:var(--fresco);border:1.5px solid var(--fresco)}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:28px}
+button:focus-visible{outline:3px solid var(--saffron);outline-offset:2px}
+.note{color:var(--muted);font-size:.9rem;margin-top:14px}
+.tiles{display:flex;gap:4px;margin:18px 0 6px;flex-wrap:wrap}
+.tile{flex:1 1 0;min-width:10px;height:10px;border-radius:2px;background:var(--line)}
+.tile.now{background:var(--fresco)}
+.tile.ok{background:var(--green)}
+.tile.no{background:var(--red)}
+.meta{display:flex;justify-content:space-between;color:var(--muted);font-size:.9rem}
+.q{margin:22px 0 18px}
+.opts{display:grid;gap:10px}
+.opt{display:flex;gap:12px;align-items:flex-start;text-align:left;font:inherit;padding:13px 14px;border-radius:10px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
+.opt:hover:not(:disabled){border-color:var(--fresco)}
+.opt:disabled{cursor:default}
+.letter{flex:none;width:26px;height:26px;border-radius:50%;display:grid;place-items:center;font-weight:700;font-size:.85rem;background:var(--fresco-soft);color:var(--fresco)}
+.opt.right{border-color:var(--green);background:var(--green-soft)}
+.opt.right .letter{background:var(--green);color:var(--surface)}
+.opt.wrong{border-color:var(--red);background:var(--red-soft)}
+.opt.wrong .letter{background:var(--red);color:var(--surface)}
+.feedback{margin-top:16px;padding:14px 16px;border-radius:10px;background:var(--saffron-soft);border-left:4px solid var(--saffron)}
+.feedback strong{display:block;margin-bottom:4px}
+.score{font-family:"Marcellus",Georgia,serif;font-size:4.2rem;line-height:1;margin:22px 0 6px;color:var(--fresco)}
+.review{list-style:none;padding:0;margin:14px 0 0;display:grid;gap:10px}
+.review li{padding:12px 14px;border-radius:10px;background:var(--surface);border:1.5px solid var(--line)}
+.review .your{color:var(--red);font-size:.92rem;display:block;margin-top:4px}
+.review .ans{color:var(--green);font-size:.92rem;display:block}
+.hidden{display:none}
+@media (prefers-reduced-motion:no-preference){.fade{animation:fade .25s ease-out}@keyframes fade{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <svg class="band" aria-hidden="true">
+    <defs><pattern id="key" width="20" height="22" patternUnits="userSpaceOnUse">
+      <path d="M0 20H20M16 20V2H3V15H11V7H7" fill="none" stroke="currentColor" stroke-width="2"/>
+    </pattern></defs>
+    <rect width="100%" height="22" fill="url(#key)"/>
+  </svg>
+
+  <section id="start" class="fade">
+    <h1>Ancient Greece: random test</h1>
+    <p class="lede">Every test pulls different questions from a bank of 102, and the answers are shuffled each time. Questions you’ve already seen come back only after you’ve worked through the rest.</p>
+    <div class="group">
+      <span class="group-label" id="len-label">How many questions?</span>
+      <div class="chips" role="group" aria-labelledby="len-label" id="lenChips">
+        <button class="chip" data-len="10" aria-pressed="false">10</button>
+        <button class="chip" data-len="15" aria-pressed="true">15</button>
+        <button class="chip" data-len="20" aria-pressed="false">20</button>
+      </div>
+    </div>
+    <div class="group">
+      <span class="group-label" id="focus-label">What to practise</span>
+      <div class="chips" role="group" aria-labelledby="focus-label" id="focusChips">
+        <button class="chip" data-focus="all" aria-pressed="true">Everything</button>
+        <button class="chip" data-focus="d" aria-pressed="false">Dates only</button>
+        <button class="chip" data-focus="f" aria-pressed="false">Facts only</button>
+      </div>
+    </div>
+    <div class="actions"><button class="btn" id="go">Start test</button></div>
+    <p class="note" id="seenNote"></p>
+  </section>
+
+  <section id="quiz" class="hidden">
+    <div class="tiles" id="tiles"></div>
+    <div class="meta"><span id="count"></span><span id="topic"></span></div>
+    <h2 class="q" id="qText"></h2>
+    <div class="opts" id="opts"></div>
+    <div class="feedback hidden" id="fb" aria-live="polite"></div>
+    <div class="actions"><button class="btn hidden" id="next">Next question</button></div>
+  </section>
+
+  <section id="done" class="hidden">
+    <h1>Test finished</h1>
+    <div class="score" id="scoreBig"></div>
+    <p id="verdict"></p>
+    <p id="topicsNote" class="lede"></p>
+    <h2 id="reviewHead" style="margin-top:26px">Questions to review</h2>
+    <ul class="review" id="review"></ul>
+    <div class="actions">
+      <button class="btn" id="again">New test</button>
+      <button class="btn ghost" id="settings">Change settings</button>
+    </div>
+  </section>
+</div>
+
+<script>
+const BANK = [
+["d","Minoans","When did the Minoan civilisation begin on Crete?","c. 3000 BCE","c. 1450 BCE","c. 1100 BCE","c. 800 BCE","The Minoans began around 3000 BCE, the oldest date in the unit."],
+["d","Mycenaeans","When did Mycenaean culture flourish?","1450–1100 BCE","3000–1450 BCE","1100–800 BCE","800–500 BCE","Mycenaean culture ran from about 1450 to 1100 BCE."],
+["d","Mycenaeans","When did the Mycenaeans take control of Crete and the Cyclades?","1400–1300 BCE","3000–2500 BCE","1100–1000 BCE","800–700 BCE","About 50 years after their culture began in 1450 BCE."],
+["d","Dark Ages","Which dates mark the Greek Dark Ages?","1100–800 BCE","1450–1100 BCE","800–500 BCE","500–338 BCE","The Dark Ages ran from 1100 to 800 BCE."],
+["d","Archaic period","When was the Archaic period?","800–500 BCE","1100–800 BCE","500–338 BCE","1450–1100 BCE","Follow the chain: 1100 → 800 → 500."],
+["d","Dark Ages","Around when did the Bronze Age end?","1100 BCE","800 BCE","500 BCE","3000 BCE","The Bronze Age ended with the start of the Dark Ages, around 1100 BCE."],
+["d","Archaic period","Around when did the Iron Age begin in Greece?","800 BCE","1100 BCE","1450 BCE","500 BCE","The Iron Age began with the Archaic period, around 800 BCE."],
+["d","Persian Wars","Around when did the Greco-Persian Wars begin?","c. 500 BCE","c. 800 BCE","c. 404 BCE","c. 338 BCE","They started around 500 BCE in Asia Minor, with the Ionian Revolt."],
+["d","Persian Wars","When did the first Persian invasion begin?","492 BCE","480 BCE","479 BCE","404 BCE","The first invasion began in 492 BCE; the Battle of Marathon followed in 490."],
+["d","Persian Wars","When was the Battle of Marathon?","490 BCE","492 BCE","480 BCE","479 BCE","Marathon was in 490 BCE. Remember “90, 80, 79”."],
+["d","Persian Wars","When was the Battle of Thermopylae?","480 BCE","490 BCE","479 BCE","486 BCE","Thermopylae was in 480 BCE, during Xerxes’ invasion. (Your slides say 486; historians say 480.)"],
+["d","Persian Wars","When was the naval Battle of Salamis?","480 BCE","490 BCE","492 BCE","404 BCE","Salamis was in 480 BCE, the same year as Thermopylae."],
+["d","Persian Wars","When was the Battle of Plataea?","479 BCE","490 BCE","480 BCE","404 BCE","Plataea was in 479 BCE, the last number in “90, 80, 79”."],
+["d","Persian Wars","When was the second Persian invasion, under Xerxes I?","480–479 BCE","492–490 BCE","500–494 BCE","404–403 BCE","Xerxes invaded in 480–479 BCE."],
+["d","Peloponnesian War","When did Athens surrender to Sparta?","404 BCE","431 BCE","403 BCE","338 BCE","Athens surrendered in 404 BCE. “4-0-4, Athens is no more.”"],
+["d","Peloponnesian War","When did Sparta set up the Thirty Tyrants in Athens?","404 BCE","479 BCE","356 BCE","301 BCE","The Thirty Tyrants came right after Athens surrendered in 404 BCE."],
+["d","Peloponnesian War","When was Athens free again after the Thirty Tyrants?","403 BCE","404 BCE","338 BCE","479 BCE","Democracy returned in 403 BCE. (Your slides say 401.)"],
+["d","Macedonia","Around when did Philip II begin expanding Macedonia?","c. 356 BCE","338 BCE","323 BCE","301 BCE","Philip began expanding around 356 BCE."],
+["d","Macedonia","When was the Battle of Chaeronea?","338 BCE","356 BCE","323 BCE","301 BCE","Chaeronea was in 338 BCE. Remember “38, 23, 01”."],
+["d","Macedonia","When did Alexander the Great die?","323 BCE","338 BCE","301 BCE","356 BCE","Alexander died of illness in 323 BCE."],
+["d","Macedonia","When was the Battle of Ipsus?","301 BCE","323 BCE","338 BCE","404 BCE","Ipsus was in 301 BCE, when Alexander’s empire was finally shattered."],
+["d","Timeline","Which of these happened first?","Battle of Marathon","Battle of Salamis","Thirty Tyrants","Battle of Chaeronea","Marathon (490) comes before Salamis (480), the Thirty Tyrants (404) and Chaeronea (338). Bigger BCE number = earlier."],
+["d","Timeline","Which of these happened last?","Battle of Ipsus","Death of Alexander","Battle of Chaeronea","Battle of Plataea","Ipsus (301) is the latest; Alexander died in 323, Chaeronea was 338, Plataea 479."],
+["d","Timeline","Which battles were fought in 480 BCE?","Thermopylae and Salamis","Marathon and Plataea","Chaeronea and Ipsus","Plataea and Salamis","Thermopylae and Salamis were both in 480 BCE. Plataea was 479."],
+["d","Timeline","Which event happened in 338 BCE?","Philip II won at Chaeronea","Alexander died","Athens surrendered","The Battle of Ipsus","338 BCE is Chaeronea. Alexander died in 323, Athens surrendered in 404, Ipsus was 301."],
+["d","Timeline","Which list is in the right order, earliest first?","Minoans, Dark Ages, Archaic, Persian Wars","Dark Ages, Minoans, Archaic, Persian Wars","Minoans, Archaic, Dark Ages, Persian Wars","Archaic, Minoans, Dark Ages, Persian Wars","3000 → 1100 → 800 → 500 BCE."],
+["f","Minoans","Where was the Minoan civilisation centred?","Crete","The Peloponnese","Attica","Asia Minor","The Minoans were centred on the island of Crete."],
+["f","Minoans","Why were the Minoans in close contact with Egypt and Mesopotamia?","Their small islands had few resources","They were ruled by Persia","They had no ships","The Dorians forced them out","Small islands had few resources, so the Minoans relied on the sea and trade."],
+["f","Minoans","Which were centres of Minoan “palace culture”?","Knossos and Phaistos","Pylos and Tiryns","Athens and Sparta","Miletus and Eretria","Knossos and Phaistos were Minoan palaces, where most events happened."],
+["f","Minoans","How have researchers learned about the Minoans?","Frescoes, vases and pottery","Written constitutions","Coins and drachmas","Homer’s Odyssey","Your slides list frescoes in buildings, vases and pottery."],
+["f","Mycenaeans","What was a Mycenaean king called?","Wanax","Archon","Ephor","Strategos","Mycenaean kings were called wanax."],
+["f","Mycenaeans","What were the Mycenaeans also known as?","Achaeans","Dorians","Ionians","Perioeci","The Mycenaeans were known as Achaeans."],
+["f","Mycenaeans","Why did the Mycenaeans move to mainland Greece instead of relying on the sea?","To get more minerals and resources","To escape the Persians","Because they had no ships","To join the Delian League","The mainland gave them access to more minerals and resources."],
+["f","Mycenaeans","What were the biggest Mycenaean centres known for?","Impenetrable walls","Floating harbours","Having no kings","Being run by assemblies","Their centres had impenetrable walls, which made them more secure."],
+["f","Mycenaeans","Which was the last era of the Bronze Age?","The Mycenaean era","The Minoan era","The Archaic period","The Hellenistic period","The Mycenaeans were the last epoch of the Bronze Age."],
+["f","Dark Ages","Why are the Dark Ages called “dark”?","Lack of evidence","Constant war","A long plague","Rule by tyrants","They’re called dark because of the lack of evidence from the period."],
+["f","Dark Ages","What else is the Dark Ages period called?","The Age of Homer or Geometric period","The Golden Age","The Hellenistic period","The Iron Age","It’s also called the “Age of Homer” or the “Geometric period”."],
+["f","Dark Ages","What is the only (partly fantastical) account of the Trojan War?","The Iliad","The Odyssey","Solon’s constitution","The Apella","The Iliad is the only account; the Odyssey is its sequel."],
+["f","Dark Ages","Which tribe took over Attica?","Ionians","Dorians","Achaeans","Minoans","The Ionians took over central Greece, Attica."],
+["f","Dark Ages","Which tribe settled mostly on the Peloponnese?","Dorians","Ionians","Achaeans","Perioeci","The Dorians settled the Peloponnese. Sparta was Dorian."],
+["f","Dark Ages","Where did the Dorians push the Ionians?","Asia Minor","Crete","Arcadia","Macedonia","The Dorians pushed the Ionians into Asia Minor (today’s Turkey)."],
+["f","Dark Ages","Where did the Dorians push the Achaeans?","Northwest Arcadia","Asia Minor","Crete","Thessaly","The Achaeans were pushed into northwest Arcadia."],
+["f","Dark Ages","Which tribe took over Minoan Crete?","Achaeans","Ionians","Dorians","Spartans","The Achaeans took over Minoan Crete."],
+["f","Archaic period","What new technology began the Iron Age?","Furnaces that could smelt iron","Bronze casting","Paper","Coins made of gold","Furnaces could smelt iron, so it could be used for tools and weapons."],
+["f","Archaic period","Which was a cultural development of the Archaic period?","The Olympic Games","The Boule of 500","The Delian League","The Thirty Tyrants","The Olympic Games, Homer’s epics and early philosophy all belong to the Archaic period."],
+["f","Sparta","What was Sparta’s only colony?","Taranto","Miletus","Epidamnos","Megara","Taranto, in southern Italy, was Sparta’s only colony."],
+["f","Sparta","Which league did Sparta lead?","The Peloponnesian League","The Delian League","The Ionian League","The Macedonian League","Sparta orchestrated the Peloponnesian League."],
+["f","Sparta","Why did Sparta have two kings?","So that one didn’t have all the power","Because there were two tribes","One for war and one for trade","Because the ephors chose two","Two kings acted as a counterbalance to each other."],
+["f","Sparta","What was the Gerousia?","A council of elders who advised","The general assembly","Five lower officers","Spartan slaves","The Gerousia was a council of elders who served as advisors."],
+["f","Sparta","Who were the 5 ephors?","Lower officers for the economy and social policy","The kings’ bodyguards","Elders who advised the kings","Generals of the army","The ephors were lower officers of the state."],
+["f","Sparta","What was the Apella?","The general assembly","The council of elders","Sparta’s colony","A Spartan coin","The Apella was the general assembly, which voted on decisions."],
+["f","Sparta","What does Sparta’s “mixed” constitution combine?","Monarchy, aristocracy and democracy","Tyranny and democracy","Two kingdoms","Athenian and Persian law","It combined rule by one, rule by a few and rule by the many."],
+["f","Sparta","Who created Sparta’s mixed constitution?","Lycurgus","Solon","Draco","Pericles","Lycurgus created it, and Chilon later updated it."],
+["f","Sparta","Who were the Perioeci?","Free inhabitants of Laconia who paid taxes","Slaves with no rights","Full Spartan citizens","Athenian archons","The Perioeci were free traders and artisans who paid taxes and fought in Sparta’s wars."],
+["f","Sparta","Who were the Helots?","Slaves with no rights","Free traders and artisans","Council elders","Cavalry soldiers","The Helots were slaves to the Spartans and had no rights."],
+["f","Sparta","Which group could not be enslaved or killed by Spartans?","Perioeci","Helots","Thetes","Persians","Spartans couldn’t enslave or kill the Perioeci."],
+["f","Sparta","Who were the only citizens in Sparta?","Spartan men","Perioeci","Helots","All adults","Only Spartan men were citizens, and status passed to their children."],
+["f","Sparta","How much was 1 medimnos?","52 litres","10 litres","100 litres","500 litres","Wealth was measured in food: 1 medimnos = 52 L."],
+["f","Athens","Which Athenian archon was in charge of war?","Polemarchos","Basileus","Eponymos","Strategos","Polemarchos = war."],
+["f","Athens","Which Athenian archon handled civic matters?","Basileus","Polemarchos","Eponymos","Wanax","Basileus = civic matters."],
+["f","Athens","Which Athenian archon handled laws?","Eponymos","Basileus","Polemarchos","Ephor","Eponymos = laws."],
+["f","Athens","What was the drachma mostly used for?","Trading","Measuring wealth","Paying the Helots","Voting","The drachma was mostly used for trade, not for measuring wealth."],
+["f","Athens","What was indentured servitude?","Working off a debt as a servant","Serving in the cavalry","Becoming a citizen","Paying taxes in grain","If you couldn’t pay a debt, you temporarily became that person’s servant. It was later abolished."],
+["f","Athens","What was the goal of Draco’s constitution?","To fight against tyranny","To create democracy","To end debt slavery","To beat Persia","Draco’s harsh laws aimed to fight tyranny."],
+["f","Athens","Who created the Boule of 400?","Solon","Draco","Cleisthenes","Pericles","Solon softened Draco’s laws and created the Boule of 400."],
+["f","Athens","Who created the Boule of 500?","Cleisthenes","Solon","Draco","Lycurgus","Cleisthenes created the new Boule of 500."],
+["f","Athens","Who formed the Ecclesia assembly?","Cleisthenes","Draco","Solon","Philip II","Cleisthenes formed the Ecclesia."],
+["f","Athens","What was ostracism?","Deciding to exile someone","Choosing a king","Paying a debt","Training soldiers","Ostracism was the process of deciding to exile someone."],
+["f","Athens","Which class served as cavalry?","Hippeis","Zeugitai","Thetes","Pentakosiomedimnoi","Hippeis (300–500 medimnoi) were the cavalry."],
+["f","Athens","Which class fought as hoplites (infantry)?","Zeugitai","Hippeis","Thetes","Helots","Zeugitai (200–300 medimnoi) were hoplites."],
+["f","Athens","Which class served as rowers, slingers or batmen?","Thetes","Zeugitai","Hippeis","Perioeci","Thetes owned under 200 medimnoi."],
+["f","Athens","Which class was eligible to be strategoi?","Pentakosiomedimnoi","Thetes","Zeugitai","Hippeis","Pentakosiomedimnoi had 500+ medimnoi."],
+["f","Athens","What is a timocracy?","Power based on wealth","Rule by one tyrant","Rule by elders","Power based on age","The more wealth you had, the more you could take part in politics."],
+["f","Athens","What is a patrimonial aristocracy?","Power that can only be inherited","Power won in battle","Power chosen by vote","Power bought with drachmas","Patrimony = inherited through generations."],
+["f","Athens","What is direct democracy?","People vote on each law themselves","People elect representatives","One king rules","Power is based on wealth","In direct democracy, people vote on each law themselves."],
+["f","Athens","What is indirect democracy?","People elect representatives who decide","People vote on every law","The richest people rule","The army rules","Indirect (representative) democracy: you vote for someone to decide for you."],
+["f","Persian Wars","How did the Ionian Revolt end?","Miletus was destroyed","Persia surrendered","Athens took Miletus","Sparta joined Persia","The revolt failed and Miletus was destroyed."],
+["f","Persian Wars","Who led the first Persian attacks?","Darius I","Xerxes I","Philip II","Leonidas I","King Darius I led the first attacks."],
+["f","Persian Wars","Who led the second Persian invasion?","Xerxes I","Darius I","Alexander","Pericles","Xerxes I took the throne after Darius died."],
+["f","Persian Wars","Who led the Greeks at Thermopylae?","Leonidas I","Pericles","Xerxes I","Solon","Leonidas I of Sparta led the defence at Thermopylae."],
+["f","Persian Wars","Which city did Persia destroy before landing at Marathon?","Eretria","Miletus","Sparta","Megara","A Persian naval force destroyed Eretria, then landed at Marathon."],
+["f","Persian Wars","Which battle pushed the Persians back to Anatolia?","Plataea","Thermopylae","Marathon","Chaeronea","After Plataea, Persia was pushed back to Anatolia."],
+["f","Pericles","What post did Pericles hold?","The first strategos, the new highest post","Archon for war","King of Athens","Head of the Gerousia","Pericles was “the first” strategos."],
+["f","Pericles","What kind of league was the Delian League?","A naval league","A trading company","A religious council","A land army","The Delian League was a naval league."],
+["f","Pericles","Which reform came with the Delian League?","One currency and weight system","Two kings","The Boule of 400","A ban on trade","Anywhere in the league, you used one currency at the same weight."],
+["f","Pericles","How did Pericles die?","In a plague in Athens","At Thermopylae","Of old age in Sparta","In battle at Chaeronea","He was removed from his post and later died in the plague."],
+["f","Peloponnesian War","What was the first major conflict of the war?","A riot in Epidamnos","The Battle of Marathon","The fall of Miletus","The Battle of Ipsus","The first major conflict was a riot in Epidamnos (today’s Albania)."],
+["f","Peloponnesian War","Why did the Megara ban matter to Sparta?","Megara was a Spartan ally","Megara was Sparta’s colony","Megara was Persian","Sparta wanted Megara’s ships","Megara was a Spartan ally and lost most of its income."],
+["f","Peloponnesian War","Why did the plague spread so badly in Athens?","Overcrowding inside the city walls","Trade with Persia","Bad harvests","Spartan soldiers brought it","Athens built walls and many people moved inside, so disease spread fast."],
+["f","Peloponnesian War","Why did the first part of the war end?","Plague exhausted both sides","Persia invaded","Sparta surrendered","Pericles signed a treaty","After the plague both sides were exhausted, so peace was declared."],
+["f","Peloponnesian War","What kind of rule were the Thirty Tyrants?","An oligarchy","A democracy","A monarchy","A timocracy","The Thirty Tyrants were an oligarchy, rule by a few."],
+["f","Peloponnesian War","Which region was on Athens’ side (Delian League)?","Thessaly","Corinth","Megara","Boeotia","Thessaly was with the Delian League; the others were with Sparta."],
+["f","Macedonia","Why could Macedonia expand into Greece?","The city states were exhausted","Persia helped them","Sparta invited them","Athens elected Philip","The Greek city states were falling apart from exhaustion."],
+["f","Macedonia","What kind of rule did Macedonia have?","Dynastic and centralised","Direct democracy","A mixed constitution","City states","One ruling family, with no city states."],
+["f","Macedonia","Which roles did the Macedonian king hold?","Army general, head of religion, head judge","Only head of religion","Only army general","None, he was ceremonial","The king held all three roles."],
+["f","Macedonia","How did the Macedonian king protect free farmers?","He was a counterweight to the aristocracy","He abolished taxes","He let them elect him","He gave them all the land","He made sure aristocrats couldn’t exploit the free farmers."],
+["f","Macedonia","Who could join the Macedonian general assembly?","Everyone of fighting age","Only aristocrats","Only the king’s family","Only farmers","The assembly included everyone of fighting age."],
+["f","Macedonia","Who divided Alexander’s empire after he died?","His generals","The Persians","The Spartans","The Athenian Ecclesia","His generals split it into 6–8 parts and fought each other."],
+["f","Culture","What does “kalos kagathos” mean?","Beautiful and virtuous","Rule by the many","City state","Inherited power","It was the Olympic ideal: beautiful and virtuous."],
+["f","Culture","Which Greek is linked to medicine?","Hippocrates","Pericles","Solon","Leonidas","Hippocrates is the famous Greek physician."],
+["f","Culture","What is a polis?","A city state","A council","A coin","A temple","Polis = city state."],
+["f","Culture","What were the Greeks famous for making?","Ships and ceramics","Iron bridges","Silk","Paper","Your slides say the Greeks were famous for ships and ceramics."]
+];
+
+const store = {
+  get(k){try{return JSON.parse(localStorage.getItem(k))}catch(e){return null}},
+  set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}
+};
+const $ = id => document.getElementById(id);
+const show = id => {["start","quiz","done"].forEach(s=>$(s).classList.toggle("hidden",s!==id));$(id).classList.remove("fade");void $(id).offsetWidth;$(id).classList.add("fade");window.scrollTo(0,0)};
+const shuffle = a => {a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+
+let len = 15, focus = "all", test = [], i = 0, results = [];
+
+function pickChip(groupId, attr, val){
+  document.querySelectorAll("#"+groupId+" .chip").forEach(c=>c.setAttribute("aria-pressed", c.dataset[attr]===String(val)));
+}
+$("lenChips").addEventListener("click",e=>{const b=e.target.closest(".chip");if(!b)return;len=+b.dataset.len;pickChip("lenChips","len",len)});
+$("focusChips").addEventListener("click",e=>{const b=e.target.closest(".chip");if(!b)return;focus=b.dataset.focus;pickChip("focusChips","focus",focus);updateNote()});
+
+function pool(){return BANK.map((q,idx)=>({q,idx})).filter(o=>focus==="all"||o.q[0]===focus)}
+function updateNote(){
+  const seen = new Set(store.get("gq-seen")||[]);
+  const p = pool(); const fresh = p.filter(o=>!seen.has(o.idx)).length;
+  $("seenNote").textContent = fresh===p.length ? `${p.length} questions in this set.` : `${fresh} of ${p.length} questions in this set you haven’t seen yet.`;
+}
+
+function build(){
+  let seen = store.get("gq-seen")||[];
+  const p = pool();
+  let fresh = shuffle(p.filter(o=>!seen.includes(o.idx)));
+  if(fresh.length < len){
+    const ids = new Set(p.map(o=>o.idx));
+    seen = seen.filter(s=>!ids.has(s));
+    const old = shuffle(p.filter(o=>!fresh.includes(o)));
+    fresh = fresh.concat(old);
+  }
+  test = fresh.slice(0, Math.min(len, p.length));
+  store.set("gq-seen", seen.concat(test.map(o=>o.idx)));
+  i = 0; results = [];
+  $("tiles").innerHTML = test.map(()=>'<span class="tile"></span>').join("");
+  show("quiz"); render();
+}
+
+function render(){
+  const [ , topic, text, right, ...rest] = test[i].q;
+  const opts = shuffle([right, rest[0], rest[1], rest[2]]);
+  $("count").textContent = `Question ${i+1} of ${test.length}`;
+  $("topic").textContent = topic;
+  $("qText").textContent = text;
+  $("fb").classList.add("hidden");
+  $("next").classList.add("hidden");
+  const tiles = $("tiles").children;
+  for(let t=0;t<tiles.length;t++){tiles[t].classList.toggle("now",t===i)}
+  $("opts").innerHTML = "";
+  opts.forEach((o,k)=>{
+    const b = document.createElement("button");
+    b.className = "opt";
+    b.innerHTML = `<span class="letter">${"ABCD"[k]}</span><span></span>`;
+    b.lastChild.textContent = o;
+    b.addEventListener("click",()=>answer(b,o,right));
+    $("opts").appendChild(b);
+  });
+  $("opts").firstChild.focus({preventScroll:true});
+}
+
+function answer(btn, chosen, right){
+  const ok = chosen===right;
+  const q = test[i].q;
+  results.push({q, chosen, ok});
+  [...$("opts").children].forEach(b=>{
+    b.disabled = true;
+    if(b.lastChild.textContent===right) b.classList.add("right");
+  });
+  if(!ok) btn.classList.add("wrong");
+  const tile = $("tiles").children[i];
+  tile.classList.remove("now"); tile.classList.add(ok?"ok":"no");
+  $("fb").innerHTML = `<strong>${ok?"Correct.":"Not quite."}</strong><span></span>`;
+  $("fb").lastChild.textContent = q[7];
+  $("fb").classList.remove("hidden");
+  $("next").textContent = i===test.length-1 ? "See results" : "Next question";
+  $("next").classList.remove("hidden");
+  $("next").focus({preventScroll:true});
+}
+
+$("next").addEventListener("click",()=>{ if(i<test.length-1){i++;render()} else finish() });
+
+function finish(){
+  const score = results.filter(r=>r.ok).length, n = results.length, pct = score/n;
+  $("scoreBig").textContent = `${score}/${n}`;
+  $("verdict").textContent = pct===1 ? "Perfect score. Try a longer test or switch focus." :
+    pct>=.8 ? "Strong result. Look over the few you missed below." :
+    pct>=.6 ? "Good base. Review the misses, then take another test." :
+    "Keep going. Read through the misses below, then try again.";
+  const missed = results.filter(r=>!r.ok);
+  const topics = {};
+  missed.forEach(r=>topics[r.q[1]]=(topics[r.q[1]]||0)+1);
+  const top = Object.entries(topics).sort((a,b)=>b[1]-a[1]).slice(0,3).map(t=>t[0]);
+  $("topicsNote").textContent = top.length ? `Topics to revise: ${top.join(", ")}.` : "";
+  $("reviewHead").classList.toggle("hidden", !missed.length);
+  $("review").innerHTML = "";
+  missed.forEach(r=>{
+    const li = document.createElement("li");
+    li.innerHTML = "<span></span><span class='your'></span><span class='ans'></span>";
+    li.children[0].textContent = r.q[2];
+    li.children[1].textContent = "Your answer: " + r.chosen;
+    li.children[2].textContent = "Correct: " + r.q[3];
+    $("review").appendChild(li);
+  });
+  show("done");
+}
+
+$("go").addEventListener("click", build);
+$("again").addEventListener("click", build);
+$("settings").addEventListener("click", ()=>{updateNote();show("start")});
+updateNote();
+</script>
+</body>
+</html>
